@@ -46,35 +46,59 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let firstThread = Thread {
+        //MARK: - Thread
+        
+//        let firstThread = Thread {
+//            self.account.deposit(ammount: 100)
+////            print("Баланс: \(self.account.accountBalance)")
+//        }
+//        
+//        let secondThread = Thread {
+//            self.account.withdraw(ammount: 70)
+//        }
+//        
+//        let thirdThread = Thread {
+//            self.account.withdraw(ammount: 90)
+//        }
+//        
+//        let fourthThread = Thread {
+//            self.account.deposit(ammount: 300)
+//        }
+//        
+//        let fifthThread = Thread {
+//            self.account.deposit(ammount: 50)
+//        }
+//        
+//        
+//        firstThread.start()
+//        secondThread.start()
+//        thirdThread.start()
+//        fourthThread.start()
+//        fifthThread.start()
+        
+        //MARK: - GCD
+        
+        let serialQueue = DispatchQueue(label: "com.feature.serialQueue", attributes: .concurrent)
+        
+        serialQueue.async {
             self.account.deposit(ammount: 100)
-//            print("Баланс: \(self.account.accountBalance)")
         }
         
-        let secondThread = Thread {
+        serialQueue.async {
             self.account.withdraw(ammount: 70)
         }
         
-        let thirdThread = Thread {
+        serialQueue.async {
             self.account.withdraw(ammount: 90)
         }
         
-        let fourthThread = Thread {
+        serialQueue.async {
             self.account.deposit(ammount: 300)
         }
         
-        let fifthThread = Thread {
+        serialQueue.async {
             self.account.deposit(ammount: 50)
         }
-        
-        
-        firstThread.start()
-        secondThread.start()
-        thirdThread.start()
-        fourthThread.start()
-        fifthThread.start()
-        
-        
     }
 
 
