@@ -78,25 +78,25 @@ class ViewController: UIViewController {
         
         //MARK: - GCD
         
-        let serialQueue = DispatchQueue(label: "com.feature.serialQueue", attributes: .concurrent)
+        let concurrentlQueue = DispatchQueue(label: "com.feature.concurrentlQueue", attributes: .concurrent)
         
-        serialQueue.async {
+        concurrentlQueue.async {
             self.account.deposit(ammount: 100)
         }
         
-        serialQueue.async {
+        concurrentlQueue.async {
             self.account.withdraw(ammount: 70)
         }
         
-        serialQueue.async {
+        concurrentlQueue.async {
             self.account.withdraw(ammount: 90)
         }
         
-        serialQueue.async {
+        concurrentlQueue.async {
             self.account.deposit(ammount: 300)
         }
         
-        serialQueue.async {
+        concurrentlQueue.async {
             self.account.deposit(ammount: 50)
         }
     }
