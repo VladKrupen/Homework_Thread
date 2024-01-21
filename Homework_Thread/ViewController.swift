@@ -10,30 +10,24 @@ import UIKit
 class BankAccount {
     
     var accountBalance: Float = 0
-    
-    private let lock = NSLock()
+    let synchronizationQueue = DispatchQueue(label: "com.feature.synchronizationQueue")
     
     func deposit(ammount: Float) {
-        lock.lock()
-        accountBalance += ammount
-        print("Пополнение: \(ammount), текущий баланс: \(accountBalance)")
-        defer {
-            lock.unlock()
+        synchronizationQueue.async(flags: .barrier) {
+            self.accountBalance += ammount
+            print("Пополнение: \(ammount), текущий баланс: \(self.accountBalance)")
         }
     }
     
     func withdraw(ammount: Float) {
-        lock.lock()
-        if accountBalance >= ammount {
-            accountBalance -= ammount
-            print("Со счета снято: \(ammount), текущий баланс: \(accountBalance)")
-        } else {
-            print("Операция невозможна: недостаточно средств")
+        synchronizationQueue.async(flags: .barrier) {
+            if self.accountBalance >= ammount {
+                self.accountBalance -= ammount
+                print("Со счета снято: \(ammount), текущий баланс: \(self.accountBalance)")
+            } else {
+                print("Операция невозможна: недостаточно средств")
+            }
         }
-        defer {
-            lock.unlock()
-        }
-        
     }
     
     
